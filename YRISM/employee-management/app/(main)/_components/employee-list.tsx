@@ -3,6 +3,7 @@
 import { ResponseList } from '@/@types/api';
 import Loading from '@/components/loading';
 import useFetch from '@/hooks/use-fetch';
+import useIntersectionObserver from '@/hooks/use-intersection-observer';
 import { deleteEmployee, fetchEmployees } from '@/lib/api/server';
 import { getQueryParamsEmployee } from '@/utils/get-query-params-employee';
 import Link from 'next/link';
@@ -10,7 +11,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import useFormatEmployees from '../_hooks/use-format-employees';
-import useIntersectionObserver from '../_hooks/use-intersection-observer';
 import EmployeeItem from './employee-item';
 
 type EmployeeListProps = {
@@ -65,6 +65,7 @@ const EmployeeList = (props: EmployeeListProps) => {
   });
 
   const reachEndRef = useRef(null);
+
   useIntersectionObserver(reachEndRef, () => {
     if (!loading && paginateRef.current.hasNext) {
       handleFetch({

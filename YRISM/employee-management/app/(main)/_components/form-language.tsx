@@ -229,6 +229,7 @@ const FormLanguage = (props: FormLanguageProps) => {
           ))}
         </ul>
       </Form.Group>
+      <div className="border border-gray-300 w-full border-dashed" />
     </div>
   );
 

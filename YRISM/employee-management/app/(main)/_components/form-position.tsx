@@ -76,7 +76,7 @@ const FormPosition = (props: FormPositionProps) => {
                       })}
                       value={
                         originalPosOptions.find(
-                          (item) => item.value === field.value
+                          (item) => item.value === watchedSelectedPos 
                         ) ?? null
                       }
                       onChange={(singleValue) => {

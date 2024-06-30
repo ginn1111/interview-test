@@ -5,10 +5,12 @@ import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import * as React from 'react';
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  isError?: boolean;
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ isError, className, type, ...props }, ref) => {
     const radius = 100;
     const [visible, setVisible] = React.useState(false);
 
@@ -21,16 +23,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       mouseX.set(clientX - left);
       mouseY.set(clientY - top);
     }
-    return (
-      <motion.div
-        style={{
-          background: useMotionTemplate`
+    const motionBg = useMotionTemplate`
         radial-gradient(
           ${visible ? `${radius}px` : '0px'} circle at ${mouseX}px ${mouseY}px,
           var(--primary),
           transparent 80%
         )
-      `,
+      `;
+    return (
+      <motion.div
+        style={{
+          background: isError ? 'unset' : motionBg,
         }}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setVisible(true)}

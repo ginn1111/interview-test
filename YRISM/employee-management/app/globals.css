@@ -6,6 +6,65 @@
   body {
     @apply text-text;
   }
+
+  .custom-swiper {
+    .swiper-button-next {
+      @apply bg-gray-50 rounded-full h-8 w-8 mr-2 opacity-80 active:translate-x-1/2 duration-200 transition font-bold;
+
+      &:after {
+        @apply text-sm;
+      }
+    }
+    .swiper-button-prev {
+      @apply bg-gray-50 rounded-full h-8 w-8 ml-2 opacity-80 active:translate-x-1/2 duration-200 transition font-bold;
+
+      &:after {
+        @apply text-sm;
+      }
+    }
+  }
+
+  .custom-select {
+    @apply text-sm text-text shadow-input border-none outline-none rounded-md;
+
+    .css-13cymwt-control {
+      @apply border-none bg-gray-50 hover:cursor-text rounded-md;
+    }
+
+    .css-1jqq78o-placeholder {
+      @apply text-neutral-400;
+    }
+    .css-1dimb5e-singleValue {
+      @apply text-black;
+    }
+
+    .css-t3ipsp-control:hover,
+    .css-t3ipsp-control {
+      border-radius: theme('borderRadius.md');
+      cursor: text;
+      transition: box-shadow 400ms;
+      box-shadow: 0 0 0 1px theme('colors.neutral.400');
+      border-color: theme('colors.neutral.400');
+    }
+
+    &.error {
+      .css-13cymwt-control {
+        box-shadow: 0 0 0 2px theme('colors.danger') !important;
+      }
+
+      .css-t3ipsp-control:hover,
+      .css-t3ipsp-control {
+        box-shadow: 0 0 0 2px theme('colors.danger');
+        border: none;
+      }
+    }
+    .css-d7l1ni-option {
+      @apply bg-gray-100 hover:cursor-pointer active:bg-primary;
+    }
+    .css-tr4s17-option {
+      @apply bg-primary text-text-primary hover:cursor-pointer active:bg-primary;
+    }
+  }
 }
 
 @layer components {
@@ -13,6 +72,7 @@
     @apply relative flex space-x-2 items-center justify-start px-4 text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)];
   }
 }
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

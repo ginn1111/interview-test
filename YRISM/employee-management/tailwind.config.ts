@@ -18,6 +18,7 @@ const config: Config = {
     extend: {
       gridTemplateColumns: {
         'auto-fit-300': 'repeat(auto-fit, minmax(300px, 1fr))',
+        'auto-fill-300': 'repeat(auto-fill, minmax(300px, 1fr))',
       },
       colors: {
         primary: '#9ed4df',
@@ -27,6 +28,7 @@ const config: Config = {
           primary: '#274968',
           gray: '#7d7d7d',
         },
+        danger: '#ef4444',
       },
       fontFamily: {
         sans: 'var(--font-sans)',

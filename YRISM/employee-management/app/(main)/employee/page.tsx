@@ -1,5 +1,11 @@
-const CreateEmployeePage = () => {
-  return <div>CreateEmployeePage</div>;
+import { fetchPositions } from '@/lib/api/server';
+import EmployeeForm from '../_components/employee-form';
+
+const CreateEmployeePage = async () => {
+  const positionResponse = await fetchPositions();
+  const positions = positionResponse.data.data;
+
+  return <EmployeeForm positionResources={positions} />;
 };
 
 export default CreateEmployeePage;

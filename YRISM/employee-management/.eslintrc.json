@@ -2,8 +2,10 @@
   "extends": [
     "next/core-web-vitals",
     "airbnb-base",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:typescript-eslint/recommended"
   ],
+  "parser": "@typescript-eslint/parser",
   "plugins": ["react", "prettier"],
   "rules": {
     "prettier/prettier": "error",

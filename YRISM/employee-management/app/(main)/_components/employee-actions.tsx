@@ -1,15 +1,29 @@
+'use client';
+
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FormEvent, useRef } from 'react';
 
 const EmployeeActions = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div className="flex justify-between flex-wrap gap-4">
-      <form className="flex-1">
+      <form className="flex-1" onSubmit={handleSearch}>
         <div className="flex gap-2 items-center">
           <div className="min-w-[300px] flex-1 max-w-[500px]">
-            <Input placeholder="Search employee..." />
+            <Input
+              ref={inputRef}
+              placeholder="Search employee..."
+              defaultValue={searchParams.get('search') ?? ''}
+            />
           </div>
-          <button className="btn group/btn">Search</button>
+          <button type="submit" className="btn group/btn">
+            Search
+          </button>
         </div>
       </form>
       <Link
@@ -20,6 +34,17 @@ const EmployeeActions = () => {
       </Link>
     </div>
   );
+
+  function handleSearch(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const search = inputRef.current?.value ?? '';
+    if (!search) {
+      router.replace('/');
+      return;
+    }
+    router.replace(`/?search=${search}`);
+  }
 };
 
 export default EmployeeActions;

@@ -34,7 +34,7 @@ const updateEmployee = async (req: NextRequest) => {
 
   await EmployeeService.updateEmployee(
     Number(splitted.at(-1)),
-    formDataToObject(formData)
+    formDataToObject(formData) as EmployeeProfile
   );
 
   return NextResponse.json({

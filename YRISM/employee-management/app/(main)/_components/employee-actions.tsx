@@ -21,14 +21,14 @@ const EmployeeActions = () => {
               defaultValue={searchParams.get('search') ?? ''}
             />
           </div>
-          <button type="submit" className="btn group/btn">
+          <button type="submit" className="btn group/btn text-sm">
             Search
           </button>
         </div>
       </form>
       <Link
         href="/employee"
-        className="btn group/btn bg-primary bg-gradient-to-b from-primary to-secondary text-text-primary grid place-items-center justify-center flex-1 w-full min-w-fit md:flex-none md:w-auto"
+        className="btn group/btn bg-primary bg-gradient-to-b from-primary to-secondary text-text-primary grid place-items-center justify-center flex-1 w-full min-w-fit md:flex-none md:w-auto text-sm"
       >
         Add Employee
       </Link>

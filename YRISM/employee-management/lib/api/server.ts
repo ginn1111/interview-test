@@ -21,7 +21,7 @@ export const fetchPositions = (): Promise<
   );
 };
 
-export const addNewEmployee = (data: any) => {
+export const addNewEmployee = (data: Omit<EmployeeProfile, 'id'>) => {
   return HTTPHostRequest.post(`${BASE_URL}/employees`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -37,7 +37,10 @@ export const getEmployee = (id: number) => {
   return HTTPHostRequest.get(`${BASE_URL}/employees/${id}`);
 };
 
-export const updateEmployee = (id: number, data: any) => {
+export const updateEmployee = (
+  id: number,
+  data: Omit<EmployeeProfile, 'id'>
+) => {
   return HTTPHostRequest.put(`${BASE_URL}/employees/${id}`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',

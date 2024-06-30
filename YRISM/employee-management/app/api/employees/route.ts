@@ -36,7 +36,9 @@ const getEmployees = async (req: NextRequest) => {
 const addNewEmployee = async (req: NextRequest) => {
   const formData = await req.formData();
 
-  await EmployeeService.createEmployee(formDataToObject(formData));
+  await EmployeeService.createEmployee(
+    formDataToObject(formData) as EmployeeProfile
+  );
 
   return NextResponse.json({
     message: 'success',

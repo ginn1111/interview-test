@@ -3,13 +3,13 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-type EmployeeItemProps = { onDelete: () => void } & FmtEmployeeProfile;
+type EmployeeItemProps = {} & FmtEmployeeProfile;
 
 const EmployeeItem = (props: EmployeeItemProps) => {
-  const { name, images, positionNames, exps, description, onDelete } = props;
+  const { name, images, positionNames, exps, description } = props;
 
   return (
-    <div className="space-y-2 bg-white shadow-md pb-2 rounded-md h-full relative overflow-hidden">
+    <div className="space-y-2 bg-white pb-2 h-full">
       <figure className="h-60 relative">
         {images?.length > 0 ? (
           <Swiper

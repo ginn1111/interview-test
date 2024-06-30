@@ -150,7 +150,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
             {isEdit && (
               <button
                 type="button"
-                className="btn"
+                className="btn text-sm"
                 onClick={() => {
                   router.push('/');
                   clearCache();
@@ -162,7 +162,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
 
             <button
               type="submit"
-              className="btn bg-primary text-text-primary"
+              className="btn bg-primary text-text-primary text-sm"
               form="employee-form"
             >
               Save
@@ -228,7 +228,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
       return p;
     });
 
-    return constructSubmitPosData;
+    return constructSubmitPosData as Position[];
   }
 
   async function handleUpdate() {

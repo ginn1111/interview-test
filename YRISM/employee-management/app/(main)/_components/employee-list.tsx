@@ -93,7 +93,11 @@ const EmployeeList = (props: EmployeeListProps) => {
     <div>
       <ul className="grid grid-cols-auto-fill-300 gap-4">
         {fmtEmployees.map((e: FmtEmployeeProfile, idx) => (
-          <li key={`${e.id}${idx}`} className="group relative overflow-hidden">
+          <li
+            title="Click to delete employee"
+            key={`${e.id}${idx}`}
+            className="group relative overflow-hidden shadow-md rounded-md"
+          >
             <button
               onClick={() => {
                 handleDeleteEmployee(e.id);
@@ -116,10 +120,7 @@ const EmployeeList = (props: EmployeeListProps) => {
               </svg>
             </button>
             <Link href={`/employee/${e.id}`}>
-              <EmployeeItem
-                {...e}
-                onDelete={() => handleDeleteEmployee(e.id)}
-              />
+              <EmployeeItem {...e} />
             </Link>
           </li>
         ))}

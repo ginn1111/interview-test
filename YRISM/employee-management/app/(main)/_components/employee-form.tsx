@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/components/loading';
 import Form from '@/components/ui/form';
 import { addNewEmployee } from '@/lib/api/server';
 import { getRandomId } from '@/utils/random-id';
@@ -7,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { pick } from 'lodash';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import z from 'zod';
 import useCalcRemainPosition from '../_hooks/use-calc-remain-position';
 import FormPosition from './form-position';
@@ -93,6 +95,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
   return (
     <div className="flex w-full justify-center">
       <div className="w-full md:w-2/3 space-y-4">
+        {form.formState.isSubmitting && <Loading />}
         <Form
           {...form}
           onSubmit={form.handleSubmit(handleSubmit)}
@@ -144,7 +147,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
     form.setValue('positions', newPositions);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const pos = form.getValues('positions');
 
     const constructSubmitPosData = pos.map((p, pI) => {
@@ -177,10 +180,20 @@ const EmployeeForm = (props: EmployeeFormProps) => {
       return p;
     });
 
-    addNewEmployee({
-      name: form.getValues('name'),
-      positions: constructSubmitPosData,
-    }).then(console.log);
+    try {
+      const response = await addNewEmployee({
+        name: form.getValues('name'),
+        positions: constructSubmitPosData,
+      });
+      if (response.data.statusCode === 200) {
+        toast.success('Employee created successfully');
+        form.reset();
+      } else {
+        toast.error('Some thing went wrong!');
+      }
+    } catch (error) {
+      toast.error('Some thing went wrong!');
+    }
   }
 };
 

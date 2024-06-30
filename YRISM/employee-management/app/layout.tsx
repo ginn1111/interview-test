@@ -1,3 +1,4 @@
+import SonnerProvider from '@/provider/sonner-provider';
 import cx from '@/utils/cx';
 import type { Metadata } from 'next';
 import { Exo } from 'next/font/google';
@@ -24,7 +25,7 @@ export default function RootLayout({
         )}
       >
         <div className="z-[-1] absolute pointer-events-none inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-        {children}
+        <SonnerProvider>{children}</SonnerProvider>
       </body>
     </html>
   );

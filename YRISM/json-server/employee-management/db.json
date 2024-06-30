@@ -1,7 +1,7 @@
 {
   "employees": [
     {
-      "id": 1,
+      "id": 10,
       "name": "Harry Kali",
       "positions": [
         {
@@ -243,28 +243,6 @@
         }
       ],
       "id": 9
-    },
-    {
-      "name": "Thuan3",
-      "positions": [
-        {
-          "id": 3408484574223204,
-          "positionResourceId": 1,
-          "toolLanguages": [
-            {
-              "description": null,
-              "from": 2020,
-              "to": 2024,
-              "positionReourceId": 1,
-              "toolLanguageResourceId": 1,
-              "displayOrder": 1,
-              "id": 2827337161823492
-            }
-          ],
-          "displayOrder": 1
-        }
-      ],
-      "id": 10
     },
     {
       "name": "Thuan3",
@@ -515,3 +493,4 @@
     }
   ]
 }
+

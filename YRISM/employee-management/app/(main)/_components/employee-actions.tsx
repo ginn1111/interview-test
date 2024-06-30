@@ -39,11 +39,7 @@ const EmployeeActions = () => {
     e.preventDefault();
 
     const search = inputRef.current?.value ?? '';
-    if (!search) {
-      router.replace('/');
-      return;
-    }
-    router.replace(`/?search=${search}`);
+    router.push(`/?search=${search}`);
   }
 };
 

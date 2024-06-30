@@ -82,9 +82,12 @@ const FormLanguage = (props: FormLanguageProps) => {
               return (
                 <Select
                   placeholder="Choose a tool/language..."
-                  className={cx('custom-select min-w-[200px] flex-1', {
-                    error: error?.message,
-                  })}
+                  className={cx(
+                    'custom-select min-w-full md:min-w-[300px] flex-1',
+                    {
+                      error: error?.message,
+                    }
+                  )}
                   value={
                     originalToolLgOptions.find(
                       (tl) => tl.value === field.value
@@ -104,7 +107,7 @@ const FormLanguage = (props: FormLanguageProps) => {
               return (
                 <Select
                   placeholder="From"
-                  className={cx('custom-select w-[100px]', {
+                  className={cx('custom-select min-w-[100px] flex-1', {
                     error: error?.message,
                   })}
                   value={
@@ -132,7 +135,7 @@ const FormLanguage = (props: FormLanguageProps) => {
               return (
                 <Select
                   placeholder="To"
-                  className={cx('custom-select w-[100px]', {
+                  className={cx('custom-select min-w-[100px] flex-1', {
                     error: error?.message,
                   })}
                   value={
@@ -149,8 +152,9 @@ const FormLanguage = (props: FormLanguageProps) => {
           />
           {watchedLanguages.length > 1 && (
             <button
+              type="button"
               onClick={onRemove}
-              className="btn border text-danger text-sm border-danger font-normal hover:bg-danger hover:text-white"
+              className="btn border text-danger text-sm border-danger font-normal hover:bg-danger hover:text-white flex-1 grid justify-center"
             >
               Remove Tool/Language
             </button>

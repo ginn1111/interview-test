@@ -1,11 +1,14 @@
 'use client';
 
 import { ResponseList } from '@/@types/api';
+import Loading from '@/components/loading';
 import useFetch from '@/hooks/use-fetch';
-import { fetchEmployees } from '@/lib/api/server';
+import { deleteEmployee, fetchEmployees } from '@/lib/api/server';
 import { getQueryParamsEmployee } from '@/utils/get-query-params-employee';
-import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 import useFormatEmployees from '../_hooks/use-format-employees';
 import useIntersectionObserver from '../_hooks/use-intersection-observer';
 import EmployeeItem from './employee-item';
@@ -18,6 +21,7 @@ type EmployeeListProps = {
 const EmployeeList = (props: EmployeeListProps) => {
   const { employees, positions } = props;
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [employeeList, setEmployeeList] = useState(employees.pageItems);
 
@@ -40,7 +44,7 @@ const EmployeeList = (props: EmployeeListProps) => {
       pageSize,
       hasNext: employees.totalItems < employees.totalPages,
     };
-  }, [searchParams.get('search')]);
+  }, [employees.pageItems]);
 
   const { loading, handleFetch } = useFetch({
     isInitFetch: false,
@@ -85,15 +89,59 @@ const EmployeeList = (props: EmployeeListProps) => {
   }
 
   return (
-    <ul className="grid grid-cols-auto-fill-300 gap-4">
-      {fmtEmployees.map((e: FmtEmployeeProfile, idx) => (
-        <li key={idx}>
-          <EmployeeItem {...e} />
-        </li>
-      ))}
-      <div ref={reachEndRef} />
-    </ul>
+    <div>
+      <ul className="grid grid-cols-auto-fill-300 gap-4">
+        {fmtEmployees.map((e: FmtEmployeeProfile, idx) => (
+          <li key={`${e.id}${idx}`} className="group relative overflow-hidden">
+            <button
+              onClick={() => {
+                handleDeleteEmployee(e.id);
+              }}
+              className="group-hover:translate-x-0 translate-x-[200%] transition duration-300 absolute right-4 top-2 bg-gray-50 hover:bg-danger hover:text-white cursor-pointer rounded-full p-1 z-50"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+            <Link href={`/employee/${e.id}`}>
+              <EmployeeItem
+                {...e}
+                onDelete={() => handleDeleteEmployee(e.id)}
+              />
+            </Link>
+          </li>
+        ))}
+        <div ref={reachEndRef} />
+      </ul>
+      {loading && (
+        <div className="flex justify-center">
+          <Loading.Inline />
+        </div>
+      )}
+    </div>
   );
+
+  async function handleDeleteEmployee(id: number) {
+    try {
+      const response = await deleteEmployee(id);
+      if (response.data.statusCode === 200) {
+        router.refresh();
+      }
+    } catch {
+      toast.error('Something went wrong');
+    }
+  }
 };
 
 export default EmployeeList;

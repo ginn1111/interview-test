@@ -14,7 +14,7 @@ const EmployeeActions = () => {
     <div className="flex justify-between flex-wrap gap-4">
       <form className="flex-1" onSubmit={handleSearch}>
         <div className="flex gap-2 items-center">
-          <div className="min-w-[300px] flex-1 max-w-[500px]">
+          <div className="min-w-[200px] flex-1 max-w-[500px]">
             <Input
               ref={inputRef}
               placeholder="Search employee..."
@@ -28,7 +28,7 @@ const EmployeeActions = () => {
       </form>
       <Link
         href="/employee"
-        className="btn group/btn bg-primary bg-gradient-to-b from-primary to-secondary text-text-primary"
+        className="btn group/btn bg-primary bg-gradient-to-b from-primary to-secondary text-text-primary flex-1 w-full grid place-items-center justify-center"
       >
         Add Employee
       </Link>

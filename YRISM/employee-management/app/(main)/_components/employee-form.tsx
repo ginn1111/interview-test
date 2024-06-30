@@ -1,11 +1,17 @@
 'use client';
 
+import { clearCache } from '@/app/server-actions/clear-cache';
 import Loading from '@/components/loading';
 import Form from '@/components/ui/form';
-import { addNewEmployee } from '@/lib/api/server';
+import {
+  addNewEmployee,
+  deleteEmployee,
+  updateEmployee,
+} from '@/lib/api/server';
 import { getRandomId } from '@/utils/random-id';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { pick } from 'lodash';
+import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -26,7 +32,7 @@ const ToolLanguagesSchema = z.object({
     required_error: 'Choose a to year',
     invalid_type_error: 'Choose a to year',
   }),
-  description: z.string().optional(),
+  description: z.string().nullish(),
 });
 
 const PositionSchema = z.object({
@@ -41,6 +47,7 @@ const EmployeeSchema = z.object({
 
 type EmployeeFormProps = {
   positionResources: PositionResource[];
+  employee?: EmployeeProfile;
 };
 
 type FormEmployee = {
@@ -49,13 +56,16 @@ type FormEmployee = {
 };
 
 const EmployeeForm = (props: EmployeeFormProps) => {
-  const { positionResources } = props;
+  const { positionResources, employee } = props;
+  const router = useRouter();
+
+  const isEdit = employee;
 
   const form = useForm<FormEmployee>({
     mode: 'onSubmit',
     shouldFocusError: false,
     resolver: zodResolver(EmployeeSchema),
-    defaultValues: {
+    defaultValues: employee ?? {
       name: '',
       positions: [{}],
     },
@@ -98,7 +108,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
         {form.formState.isSubmitting && <Loading />}
         <Form
           {...form}
-          onSubmit={form.handleSubmit(handleSubmit)}
+          onSubmit={form.handleSubmit(isEdit ? handleUpdate : handleSubmit)}
           id="employee-form"
           className="space-y-4"
         >
@@ -126,14 +136,54 @@ const EmployeeForm = (props: EmployeeFormProps) => {
             Add position
           </button>
         )}
-        <div>
-          <button type="submit" className="btn mt-4" form="employee-form">
-            Save
-          </button>
+        <div className="flex mt-4 justify-between">
+          {isEdit && (
+            <button
+              type="button"
+              className="btn border text-danger text-sm border-danger font-normal hover:bg-danger hover:text-white"
+              onClick={() => handleDeleteEmployee(employee.id)}
+            >
+              Delete
+            </button>
+          )}
+          <div className="flex gap-2">
+            {isEdit && (
+              <button
+                type="button"
+                className="btn"
+                onClick={() => {
+                  router.push('/');
+                  clearCache();
+                }}
+              >
+                Cancel
+              </button>
+            )}
+
+            <button
+              type="submit"
+              className="btn bg-primary text-text-primary"
+              form="employee-form"
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
+
+  async function handleDeleteEmployee(id: number) {
+    try {
+      const response = await deleteEmployee(id);
+      if (response.data.statusCode === 200) {
+        clearCache();
+        router.push('/');
+      }
+    } catch {
+      toast.error('Something went wrong');
+    }
+  }
 
   function handleAddPosition() {
     const positions = form.getValues('positions') ?? [];
@@ -147,9 +197,7 @@ const EmployeeForm = (props: EmployeeFormProps) => {
     form.setValue('positions', newPositions);
   }
 
-  async function handleSubmit() {
-    const pos = form.getValues('positions');
-
+  function constructPosData(pos: Partial<Position>[]) {
     const constructSubmitPosData = pos.map((p, pI) => {
       if (typeof p.positionResourceId === 'number') {
         const pos = posIdx[p.positionResourceId];
@@ -180,6 +228,36 @@ const EmployeeForm = (props: EmployeeFormProps) => {
       return p;
     });
 
+    return constructSubmitPosData;
+  }
+
+  async function handleUpdate() {
+    const pos = form.getValues('positions');
+
+    const constructSubmitPosData = constructPosData(pos);
+
+    try {
+      const response = await updateEmployee(employee!.id, {
+        name: form.getValues('name'),
+        positions: constructSubmitPosData,
+      });
+      if (response.data.statusCode === 200) {
+        clearCache();
+        router.push('/');
+        toast.success('Employee updated successfully');
+      } else {
+        toast.error('Something went wrong!');
+      }
+    } catch (error) {
+      toast.error('Something went wrong!');
+    }
+  }
+
+  async function handleSubmit() {
+    const pos = form.getValues('positions');
+
+    const constructSubmitPosData = constructPosData(pos);
+
     try {
       const response = await addNewEmployee({
         name: form.getValues('name'),
@@ -187,12 +265,13 @@ const EmployeeForm = (props: EmployeeFormProps) => {
       });
       if (response.data.statusCode === 200) {
         toast.success('Employee created successfully');
-        form.reset();
+        clearCache();
+        router.push('/');
       } else {
-        toast.error('Some thing went wrong!');
+        toast.error('Something went wrong!');
       }
     } catch (error) {
-      toast.error('Some thing went wrong!');
+      toast.error('Something went wrong!');
     }
   }
 };

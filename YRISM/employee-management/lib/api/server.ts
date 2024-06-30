@@ -28,3 +28,19 @@ export const addNewEmployee = (data: any) => {
     },
   });
 };
+
+export const deleteEmployee = (id: number) => {
+  return HTTPHostRequest.delete(`${BASE_URL}/employees/${id}`);
+};
+
+export const getEmployee = (id: number) => {
+  return HTTPHostRequest.get(`${BASE_URL}/employees/${id}`);
+};
+
+export const updateEmployee = (id: number, data: any) => {
+  return HTTPHostRequest.put(`${BASE_URL}/employees/${id}`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};

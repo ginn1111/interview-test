@@ -3,6 +3,8 @@ import { formDataToObject } from '@/utils/convert-do-form-data';
 import { getQueryParamsEmployee } from '@/utils/get-query-params-employee';
 import { NextRequest, NextResponse } from 'next/server';
 
+export const revalidate = 0;
+
 const getEmployees = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
 

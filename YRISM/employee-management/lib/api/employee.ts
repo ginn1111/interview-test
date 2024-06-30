@@ -3,11 +3,18 @@ import HTTPRequest from '@/config/api';
 import { AxiosResponse } from 'axios';
 import { createUrlWithSearchParams } from './utils';
 
-export const getEmployees = async ({
+export const getEmployees = ({
   searchParams,
 }: EmployeesRequest): Promise<AxiosResponse<Array<EmployeeProfile>>> =>
   HTTPRequest.get(createUrlWithSearchParams('/employees', searchParams));
 
-export const createEmployee = async (data: any) => {
-  return HTTPRequest.post('/employees', data);
-};
+export const createEmployee = (data: any) =>
+  HTTPRequest.post('/employees', data);
+
+export const deleteEmployee = (id: number) =>
+  HTTPRequest.delete(`/employees/${id}`);
+
+export const getEmployee = (id: number) => HTTPRequest.get(`/employees/${id}`);
+
+export const updateEmployee = (id: number, data: any) =>
+  HTTPRequest.put(`/employees/${id}`, data);

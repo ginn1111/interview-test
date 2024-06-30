@@ -97,6 +97,7 @@ const FormPosition = (props: FormPositionProps) => {
             </div>
             {watchedPosition.length > 1 && (
               <button
+                type="button"
                 className="btn border text-danger text-sm border-danger font-normal hover:bg-danger hover:text-white"
                 onClick={onRemove}
               >

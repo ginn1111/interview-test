@@ -25,12 +25,12 @@ const ToolLanguagesSchema = z.object({
     invalid_type_error: 'Choose a tool/language please',
   }),
   from: z.number({
-    required_error: 'Choose a from year',
-    invalid_type_error: 'Choose a from year',
+    required_error: 'Choose a from year please',
+    invalid_type_error: 'Choose a from year please',
   }),
   to: z.number({
-    required_error: 'Choose a to year',
-    invalid_type_error: 'Choose a to year',
+    required_error: 'Choose a to year please',
+    invalid_type_error: 'Choose a to year please',
   }),
   description: z.string().nullish(),
 });

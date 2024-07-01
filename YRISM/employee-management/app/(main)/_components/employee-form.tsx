@@ -153,7 +153,6 @@ const EmployeeForm = (props: EmployeeFormProps) => {
                 className="btn text-sm"
                 onClick={() => {
                   router.push('/');
-                  clearCache();
                 }}
               >
                 Cancel

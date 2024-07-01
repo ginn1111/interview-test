@@ -83,7 +83,7 @@ const FormLanguage = (props: FormLanguageProps) => {
                 <Select
                   placeholder="Choose a tool/language..."
                   className={cx(
-                    'custom-select min-w-full md:min-w-[290px] flex-1',
+                    'custom-select min-w-full md:min-w-[270px] flex-1',
                     {
                       error: error?.message,
                     }
@@ -107,7 +107,7 @@ const FormLanguage = (props: FormLanguageProps) => {
               return (
                 <Select
                   placeholder="From"
-                  className={cx('custom-select min-w-[100px] flex-1', {
+                  className={cx('custom-select w-[100px] flex-1 md:flex-none', {
                     error: error?.message,
                   })}
                   value={
@@ -135,7 +135,7 @@ const FormLanguage = (props: FormLanguageProps) => {
               return (
                 <Select
                   placeholder="To"
-                  className={cx('custom-select min-w-[100px] flex-1', {
+                  className={cx('custom-select w-[100px] flex-1 md:flex-none', {
                     error: error?.message,
                   })}
                   value={

@@ -1,16 +1,19 @@
+import Loading from '@/components/loading';
 import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-type EmployeeItemProps = {} & FmtEmployeeProfile;
+
+type EmployeeItemProps = { isDeleting?: boolean } & FmtEmployeeProfile;
 
 const EmployeeItem = (props: EmployeeItemProps) => {
-  const { name, images, positionNames, exps, description } = props;
+  const { name, images, positionNames, exps, description, isDeleting } = props;
 
   return (
-    <div className="space-y-2 bg-white pb-2 h-full">
-      <figure className="h-60 relative">
+    <div className="space-y-2 bg-white pb-2 h-full relative">
+      {isDeleting && <Loading className="bg-danger" msg="Deleting" />}
+      <div className="h-60 relative">
         {images?.length > 0 ? (
           <Swiper
             modules={[Navigation, Autoplay]}
@@ -35,7 +38,7 @@ const EmployeeItem = (props: EmployeeItemProps) => {
             Do not have any images
           </p>
         )}
-      </figure>
+      </div>
       <div className="px-2 space-y-2">
         <div className="flex justify-between">
           <h1 className="font-medium">{name}</h1>

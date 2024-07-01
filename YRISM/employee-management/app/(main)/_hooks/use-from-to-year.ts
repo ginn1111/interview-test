@@ -18,7 +18,7 @@ const useFromToYear = (fromYear: number = ANCHOR) => {
   const yearsToOptions = useMemo(
     () =>
       Array.from(Array(new Date().getFullYear() - fromYear + 1), (_, idx) => {
-        const year = fromYear + idx;
+        const year = (fromYear ?? ANCHOR) + idx;
         return {
           label: year,
           value: year,

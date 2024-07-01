@@ -20,6 +20,7 @@ type EmployeeListProps = {
 
 const EmployeeList = (props: EmployeeListProps) => {
   const { employees, positions } = props;
+  const [idDeleting, setIdDeleting] = useState<number | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -94,11 +95,11 @@ const EmployeeList = (props: EmployeeListProps) => {
       <ul className="grid grid-cols-auto-fill-300 gap-4">
         {fmtEmployees.map((e: FmtEmployeeProfile, idx) => (
           <li
-            title="Click to delete employee"
             key={`${e.id}${idx}`}
             className="group relative overflow-hidden shadow-md rounded-md"
           >
             <button
+              title="Click to delete employee"
               onClick={() => {
                 handleDeleteEmployee(e.id);
               }}
@@ -120,14 +121,14 @@ const EmployeeList = (props: EmployeeListProps) => {
               </svg>
             </button>
             <Link href={`/employee/${e.id}`}>
-              <EmployeeItem {...e} />
+              <EmployeeItem {...e} isDeleting={e.id === idDeleting} />
             </Link>
           </li>
         ))}
         <div ref={reachEndRef} />
       </ul>
       {loading && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-2">
           <Loading.Inline />
         </div>
       )}
@@ -136,12 +137,15 @@ const EmployeeList = (props: EmployeeListProps) => {
 
   async function handleDeleteEmployee(id: number) {
     try {
+      setIdDeleting(id);
       const response = await deleteEmployee(id);
       if (response.data.statusCode === 200) {
         router.refresh();
       }
     } catch {
       toast.error('Something went wrong');
+    } finally {
+      setIdDeleting(null);
     }
   }
 };

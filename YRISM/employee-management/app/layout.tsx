@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cx(
-          'font-sans antialiased min-h-screen relative isolate bg-grid-small-black/[0.2]',
+          'font-sans antialiased min-h-screen relative isolate bg-grid-small-black/[0.2] h-1',
           exo.variable
         )}
       >

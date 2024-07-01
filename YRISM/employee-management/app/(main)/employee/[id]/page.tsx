@@ -4,10 +4,12 @@ import EmployeeForm from '../../_components/employee-form';
 export const dynamic = 'force-dynamic';
 
 const EmployeeDetailPage = async ({ params }: { params: { id: number } }) => {
-  const employeeResponse = await getEmployee(params.id);
-  const employee = employeeResponse.data.data;
+  const [employeeResponse, positionResponse] = await Promise.all([
+    getEmployee(params.id),
+    fetchPositions(),
+  ]);
 
-  const positionResponse = await fetchPositions();
+  const employee = employeeResponse.data.data;
   const positions = positionResponse.data.data;
 
   return <EmployeeForm positionResources={positions} employee={employee} />;
